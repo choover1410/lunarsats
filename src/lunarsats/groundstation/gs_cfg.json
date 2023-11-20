@@ -1,0 +1,14 @@
+{
+    "south_pole": {
+        "lat": -87.5,
+        "lon": 0.0    
+    },
+    "north_pole": {
+        "lat": 87.5,
+        "lon": -175.0    
+    },
+    "equator": {
+        "lat": 0.0,
+        "lon": 90.0    
+    }
+}
