@@ -11,8 +11,8 @@ def main():
     """
     t_i = setup.time_0
     t_f = setup.time_final
-    iter = setup.iter
-    t = np.linspace(t_i,t_f,iter)
+    iterations = setup.iterations
+    t = np.linspace(t_i,t_f,iterations)
     t[0] = t_i
     h = int((t_f - t_i)/iter)
 
@@ -27,7 +27,7 @@ def main():
     v_sat[0,:] = setup.v_moon
 
     for t in range(0, iter-1):
-        [r_sat[t+1,:], v_sat[t+1,:]] = calc3D.rk4(h, v_sat[t,:], r_moon[t,:], r_sat[t,:])
-        [r_moon[t+1,:], v_moon[t+1,:]] = calc3D.rk4(h, v_moon[t,:], r_moon[t,:])
+        [r_sat[t+1,:], v_sat[t+1,:]] = calc3D.rk4_sat(h, v_sat[t,:], r_moon[t,:], r_sat[t,:])
+        [r_moon[t+1,:], v_moon[t+1,:]] = calc3D.rk4_moon(h, v_moon[t,:], r_moon[t,:], r_sat[t,:])
         print(r_sat[t+1,:], v_sat[t+1,:])
               

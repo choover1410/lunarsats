@@ -1,9 +1,9 @@
 """
-That sat's so flat
+That sat's so flat!
 """
 from lunarsats.three_dee import main
 
-def test_two_dee():
+def test_three_dee():
     """
     general test
     """

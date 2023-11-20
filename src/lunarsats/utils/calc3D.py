@@ -9,13 +9,14 @@ mass_moon = setup.mass_moon
 mass_sat = setup.mass_sat
 G = setup.G
 
-def force(r_moon, r_sat=None) -> list:
+def force(r_moon, r_sat, sat=False) -> list:
     """
     Calculate forces on bodies
     """
-    if r_sat:
+    if sat is True:
         delta_r = []
         for i in range(3):
+            print(i)
             delta_r[i] = r_sat[i] - r_moon[i]
         delta_r_hat = delta_r / np.linalg.norm(delta_r)
         mag_delta_r = np.linalg.norm(delta_r)
@@ -33,38 +34,43 @@ def force(r_moon, r_sat=None) -> list:
         force_mag = G * mass_earth * mass_moon / (np.linalg.norm(r_moon)**2)
         return -force_mag * r_hat
     
-def rk4(h, v, r_moon, r_sat = None):
+def rk4_sat(h, v, r_moon, r_sat):
     """
-    Fourth-Order Runge-Kutta solver for body position and velocity
+    Fourth-Order Runge-Kutta solver for Sat position and velocity
     """
     k11 = v
-    if r_sat:
-        k21 = force(r_moon, r_sat) / mass_sat
+    k21 = force(r_moon, r_sat, sat=True) / mass_sat
 
-        k12 = v + 0.5*h*k21
-        k22 = force(r_moon,r_sat+0.5*h*k11) / mass_sat
+    k12 = v + 0.5*h*k21
+    k22 = force(r_moon,r_sat+0.5*h*k11, sat=True) / mass_sat
 
-        k13 = v + 0.5*h*k22
-        k23 = force(r_moon, r_sat+0.5*h*k12) / mass_sat
+    k13 = v + 0.5*h*k22
+    k23 = force(r_moon, r_sat+0.5*h*k12, sat=True) / mass_sat
 
-        k14 = v + h*k23
-        k24 = force(r_moon, r_sat+h*k13) / mass_sat
+    k14 = v + h*k23
+    k24 = force(r_moon, r_sat+h*k13, sat=True) / mass_sat
 
-        position = r_sat + float(h * (k11 + 2.0*k12 + 2.0*k13 + k14) / 6.0)
-        velocity = v + float(h * (k21 + 2.0*k22 + 2.0*k23 + k24) / 6.0)
-        return [position, velocity]
-    else:
-        k21 = force(r_moon) / mass_moon
+    position = r_sat + h * (k11 + 2.0*k12 + 2.0*k13 + k14) / 6.0
+    velocity = v + h * (k21 + 2.0*k22 + 2.0*k23 + k24) / 6.0
+    return [position, velocity]
 
-        k12 = v + 0.5*h*k21
-        k22 = force(r_moon + 0.5*h*k11) / mass_moon
-
-        k13 = v + 0.5*h*k22
-        k23 = force(r_moon + 0.5*h*k12) / mass_moon
-
-        k14 = v + h*k23
-        k24 = force(r_moon + h*k13) / mass_moon
     
-        position = r_moon + float(h * (k11 + 2.0*k12 + 2.0*k13 + k14) / 6.0)
-        velocity = v + float(h * (k21 + 2.0*k22 + 2.0*k23 + k24) / 6.0)
-        return [position, velocity]
+def rk4_moon(h, v, r_moon, r_sat):
+    """
+    Fourth-Order Runge-Kutta solver for Moon position and velocity
+    """
+    k11 = v
+    k21 = force(r_moon, r_sat) / mass_sat
+
+    k12 = v + 0.5*h*k21
+    k22 = force(r_moon,r_sat+0.5*h*k11) / mass_sat
+
+    k13 = v + 0.5*h*k22
+    k23 = force(r_moon, r_sat+0.5*h*k12) / mass_sat
+
+    k14 = v + h*k23
+    k24 = force(r_moon, r_sat+h*k13) / mass_sat
+
+    position = r_sat + h * (k11 + 2.0*k12 + 2.0*k13 + k14) / 6.0
+    velocity = v + h * (k21 + 2.0*k22 + 2.0*k23 + k24) / 6.0
+    return [position, velocity]

@@ -4,7 +4,7 @@ Setup for 3D rectangular coords
 # ================= TIMING =================
 time_0 = 0
 time_final = 100   # time, in Earth years
-iter = 100 * time_final
+iterations = 100 * time_final
 
 # ================= NORMALIZATION =================
 year2sec = 365 * 24 * 60 * 60
@@ -21,7 +21,7 @@ v_moon_mag = 1023 #m/s
 v_moon = [0, v_moon_mag, 0]
 
 # ================= SAT =================
-sat_mass = 1000 #kg
+mass_sat = 1000 #kg
 r_sat = [384.4e6 + 1e6, 0, 0]
 v_sat_mag = 1023*25
-v_sat_mag = [0, v_sat_mag, 0]
+v_sat = [0, v_sat_mag, 0]
