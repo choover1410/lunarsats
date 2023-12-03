@@ -24,3 +24,13 @@ c. downlink/uplink quality to GEO/Earth
 2. Orbit(s)
 3. Sat quantity per orbit
 4. ...
+
+# TODO:
+- Validate 3BP in 3D
+- Specify test scenarios
+    + What defines a deviation from orbit? Closeness of the following pass?
+- Generate appropriate plotting
+    + 3D time-variant scatter plot of position, Moon-fixed
+    + Altitude vs Time
+    + Grav. Force vs. Time
+    + Max. Potential Solar Force vs. Time
